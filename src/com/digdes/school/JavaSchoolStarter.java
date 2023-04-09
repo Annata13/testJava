@@ -332,7 +332,7 @@ public class JavaSchoolStarter {
         return result;
     }
 
-    public void assingVariable(String request) {
+    public void assingVariable(String request) throws Exception {
         patternId = Pattern.compile("'id'\\s?=\\s?\\d+", Pattern.CASE_INSENSITIVE);
         Matcher matcherId = patternId.matcher(request);
         if (matcherId.find()) {
@@ -368,6 +368,51 @@ public class JavaSchoolStarter {
             //      System.out.println("active: " + active);
         }
         //   System.out.println("");
+
+        Pattern patternNotName = Pattern.compile("('.+')\\s?=(.*)\\s?", Pattern.CASE_INSENSITIVE);       // Поиск лишних наименований
+        Matcher matchernotName = patternNotName.matcher(request);
+        if (matchernotName.find()) {
+            String notName;
+            notName = matchernotName.group();
+            //   System.out.println("Что это?? " + matchernotName.group());
+            Matcher matcherNotName = patternId.matcher(notName);
+            if (matcherNotName.find()) {
+                String str = matcherNotName.group();
+                notName = notName.replaceAll(str, "");
+                //  System.out.println("id: " + notName + " group(): " + matcherNotName.group());
+            }
+             matcherNotName = patternAge.matcher(notName);
+            if (matcherNotName.find()) {
+                String str = matcherNotName.group();
+                notName = notName.replaceAll(str, "");
+                //  System.out.println("age: " + notName + " group(): " + matcherNotName.group());
+            }
+             matcherNotName = patternActive.matcher(notName);
+            if (matcherNotName.find()) {
+                String str = matcherNotName.group();
+                notName = notName.replaceAll(str, "");
+                //  System.out.println("active: " + notName + " group(): " + matcherNotName.group());
+            }
+            matcherNotName = patternCost.matcher(notName);
+            if (matcherNotName.find()) {
+                String str = matcherNotName.group();
+                notName = notName.replaceAll(str, "");
+                //  System.out.println("cost: " + notName + " group(): " + matcherNotName.group());
+            }
+            matcherNotName = patternLastName.matcher(notName);
+            if (matcherNotName.find()) {
+                String str = matcherNotName.group();
+                notName = notName.replaceAll(str, "");
+                //  System.out.println("lastName: " + notName + " group(): " + matcherNotName.group());
+            }
+         //    patternNotName = Pattern.compile("('.+')\\s?=(.*)\\s?", Pattern.CASE_INSENSITIVE);
+            matcherNotName = patternNotName.matcher(notName);
+            if(matcherNotName.find()){
+
+System.out.println("Наименование отсутствует в таблице: "+ matcherNotName.group());
+throw new Exception();
+            }
+        }
     }
 
     public List<Map<String, Object>> insert() throws Exception { // добавить новый элемент
